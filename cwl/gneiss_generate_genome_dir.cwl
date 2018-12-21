@@ -34,4 +34,4 @@ arguments:
     valueFrom: genome_dir
 requirements:
   - class: DockerRequirement
-    dockerPull: estorrs/gneiss
+    dockerPull: estorrs/gneiss:0.0.1
