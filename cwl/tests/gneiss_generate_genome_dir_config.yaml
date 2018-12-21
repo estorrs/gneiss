@@ -1,0 +1,4 @@
+threads: 2
+reference_fasta:
+  class: File
+  path: /diskmnt/Projects/Users/estorrs/gneiss/tests/data/test_ref.fa

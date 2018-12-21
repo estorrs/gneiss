@@ -5,36 +5,33 @@ $namespaces:
 id: gneiss_align
 baseCommand:
   - python
-  - /gneiss/gneiss/gneiss.py
+  - /gneiss/gneiss/generate_genome_dir.py
 inputs:
-  - id: genome_dir
-    type: Directory
-    inputBinding:
-      position: 0
-      prefix: '--genome-dir'
   - id: threads
     type: int?
     inputBinding:
       position: 0
       prefix: '--threads'
-  - id: read_1_fastq
+  - id: reference_fasta
+    type: File
+    inputBinding:
+      position: 0
+      prefix: '--reference-fasta'
+  - id: gtf
     type: File?
     inputBinding:
-      position: 98
-  - id: read_2_fastq
-    type: File?
-    inputBinding:
-      position: 99
+      position: 0
+      prefix: '--gtf'
 outputs:
-  - id: output_bam
-    type: File?
+  - id: output_genome_dir
+    type: Directory?
     outputBinding:
-      glob: gneiss_outputs/Aligned.sortedByCoord.out.bam
+      glob: genome_dir
 label: gneiss_align
 arguments:
-  - position: 0
-    prefix: '--output-dir'
-    valueFrom: gneiss_outputs
+  - position: 99
+    prefix: ''
+    valueFrom: genome_dir
 requirements:
   - class: DockerRequirement
     dockerPull: estorrs/gneiss
