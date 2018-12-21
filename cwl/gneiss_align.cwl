@@ -34,7 +34,7 @@ label: gneiss_align
 arguments:
   - position: 0
     prefix: '--output-dir'
-    valueFrom: /gneiss/cwl/outputs
+    valueFrom: gneiss_outputs
 requirements:
   - class: DockerRequirement
     dockerPull: estorrs/gneiss

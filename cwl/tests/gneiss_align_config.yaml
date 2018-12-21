@@ -1,10 +1,10 @@
 threads: 2
 genome_dir:
   class: Directory
-  path: tests/data/genome_dir
+  path: /diskmnt/Projects/Users/estorrs/data/test_genome_dir
 read_1_fastq:
   class: File
-  path: tests/data/reads_1.fq
+  path: /diskmnt/Projects/Users/estorrs/gneiss/tests/data/reads_1.fq
 read_2_fastq:
   class: File
-  path: tests/data/reads_2.fq
+  path: /diskmnt/Projects/Users/estorrs/gneiss/tests/data/reads_2.fq
