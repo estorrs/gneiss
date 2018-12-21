@@ -33,8 +33,8 @@ outputs:
 label: gneiss_align
 arguments:
   - position: 0
-    prefix: '--output_dir'
-    valueFrom: /gneiss/gneiss/outputs
+    prefix: '--output-dir'
+    valueFrom: /gneiss/cwl/outputs
 requirements:
   - class: DockerRequirement
     dockerPull: estorrs/gneiss
