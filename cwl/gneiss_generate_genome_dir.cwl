@@ -7,11 +7,6 @@ baseCommand:
   - python
   - /gneiss/gneiss/generate_genome_dir.py
 inputs:
-  - id: genome_dir
-    type: string
-    inputBinding:
-      position: 99
-      prefix: ''
   - id: threads
     type: int?
     inputBinding:
@@ -33,6 +28,10 @@ outputs:
     outputBinding:
       glob: genome_dir
 label: gneiss_align
+arguments:
+  - position: 99
+    prefix: ''
+    valueFrom: genome_dir
 requirements:
   - class: DockerRequirement
     dockerPull: estorrs/gneiss
