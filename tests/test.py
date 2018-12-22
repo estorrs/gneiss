@@ -41,7 +41,7 @@ def test_star_aligner_compressed_input():
             '--output-dir', TEST_OUTPUT_DIR,
             '--genome-dir', TEST_GENOME_DIR,
             '--compressed-input',
-            TEST_READ_1, TEST_READ_2]
+            TEST_READ_1_COMPRESSED, TEST_READ_2_COMPRESSED]
     
     results = subprocess.check_output(tool_args).decode('utf-8')
 
