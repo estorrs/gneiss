@@ -17,6 +17,11 @@ inputs:
     inputBinding:
       position: 0
       prefix: '--threads'
+  - id: compressed_input
+    type: boolean?
+    inputBinding:
+      position: 0
+      prefix: '--compressed-input'
   - id: read_1_fastq
     type: File?
     inputBinding:
