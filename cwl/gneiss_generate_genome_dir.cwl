@@ -30,7 +30,6 @@ outputs:
 label: gneiss_align
 arguments:
   - position: 99
-    prefix: ''
     valueFrom: genome_dir
 requirements:
   - class: DockerRequirement
