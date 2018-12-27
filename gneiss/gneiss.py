@@ -64,6 +64,10 @@ def run_star_aligner(read_1_fp, read_2_fp, genome_dir_fp, output_dir_fp, threads
     if output_dir_fp[-1] != '/':
         output_dir_fp += '/'
 
+    # make output directory if it doesn't exist yet
+    if not os.path.exists(output_dir_fp):
+        os.makedirs(output_dir_fp)
+
     tool_args = ['STAR',
         '--runThreadN', str(threads),
         '--genomeDir', genome_dir_fp,
