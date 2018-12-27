@@ -1,10 +1,12 @@
 threads: 2
-genome_dir:
-  class: Directory
-  path: /diskmnt/Projects/Users/estorrs/data/test_genome_dir
+compressed_input: false
+two_pass: true
+reference_fasta:
+  class: File
+  path: ../../tests/data/test_ref.fa
 read_1_fastq:
   class: File
-  path: /diskmnt/Projects/Users/estorrs/gneiss/tests/data/reads_1.fq
+  path: ../../tests/data/reads_1.fq
 read_2_fastq:
   class: File
-  path: /diskmnt/Projects/Users/estorrs/gneiss/tests/data/reads_2.fq
+  path: ../..//tests/data/reads_2.fq
