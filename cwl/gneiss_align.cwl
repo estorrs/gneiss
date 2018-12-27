@@ -7,11 +7,6 @@ baseCommand:
   - python
   - /gneiss/gneiss/gneiss.py
 inputs:
-  - id: genome_dir
-    type: Directory
-    inputBinding:
-      position: 0
-      prefix: '--genome-dir'
   - id: threads
     type: int?
     inputBinding:
@@ -30,6 +25,21 @@ inputs:
     type: File?
     inputBinding:
       position: 99
+  - id: reference_fasta
+    type: File
+    inputBinding:
+      position: 0
+      prefix: '--reference-fasta'
+  - id: gtf
+    type: File?
+    inputBinding:
+      position: 0
+      prefix: '--gtf'
+  - id: two_pass
+    type: boolean?
+    inputBinding:
+      position: 0
+      prefix: '--two-pass'
 outputs:
   - id: output_bam
     type: File?
@@ -42,4 +52,4 @@ arguments:
     valueFrom: gneiss_outputs
 requirements:
   - class: DockerRequirement
-    dockerPull: estorrs/gneiss:0.0.1
+    dockerPull: 'estorrs/gneiss:0.0.2'
