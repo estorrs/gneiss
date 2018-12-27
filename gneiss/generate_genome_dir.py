@@ -38,7 +38,7 @@ def check_arguments():
     if args.reference_fasta is None:
         raise ValueError('Must specify a bowtie2 compatible reference fasta')
 
-def generate_genome_dir(genome_dir_fp, reference_fp, gtf_fp, threads=1):
+def generate_genome_dir(genome_dir_fp, reference_fp, gtf_fp, tab_fp=None, threads=1):
     # make sure genome_dir exists
     if not os.path.exists(genome_dir_fp):
         os.makedirs(genome_dir_fp)
@@ -52,13 +52,17 @@ def generate_genome_dir(genome_dir_fp, reference_fp, gtf_fp, threads=1):
     if gtf_fp is not None:
         tool_args += ['--sjdbGTFfile', gtf_fp]
 
-    print(f'Running the following: {" ".join(tool_args)}')
+    if tab_fp is not None:
+        tool_args += ['--sjdbFileChrStartEnd', tab_fp]
+
+    print('creating genome directory')
+    print(f'executing the following: {" ".join(tool_args)}')
     print(subprocess.check_output(tool_args).decode('utf-8'))
 
 def main():
     check_arguments()
     
-    generate_genome_dir(args.genome_dir_fp, args.reference_fasta, args.gtf, args.threads)
+    generate_genome_dir(args.genome_dir_fp, args.reference_fasta, args.gtf, threads=args.threads)
 
 
 if __name__ == '__main__':

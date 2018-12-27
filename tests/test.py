@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 
 import pytest
@@ -22,13 +23,28 @@ def test_build_genome_dir():
     
     results = subprocess.check_output(tool_args).decode('utf-8')
 
+    # remove genome dir
+    shutil.rmtree(TEST_GENOME_DIR)
+
     assert 'finished successfully' in results
 
-def test_star_aligner():
+def test_aligner_single_pass():
     tool_args = ['python', 'gneiss/gneiss.py',
             '--threads', '2',
             '--output-dir', TEST_OUTPUT_DIR,
-            '--genome-dir', TEST_GENOME_DIR,
+            '--reference-fasta', TEST_FASTA_REFERENCE,
+            TEST_READ_1, TEST_READ_2]
+    
+    results = subprocess.check_output(tool_args).decode('utf-8')
+
+    assert 'finished successfully' in results
+
+def test_aligner_two_pass():
+    tool_args = ['python', 'gneiss/gneiss.py',
+            '--threads', '2',
+            '--output-dir', TEST_OUTPUT_DIR,
+            '--reference-fasta', TEST_FASTA_REFERENCE,
+            '--two-pass',
             TEST_READ_1, TEST_READ_2]
     
     results = subprocess.check_output(tool_args).decode('utf-8')
@@ -39,7 +55,7 @@ def test_star_aligner_compressed_input():
     tool_args = ['python', 'gneiss/gneiss.py',
             '--threads', '2',
             '--output-dir', TEST_OUTPUT_DIR,
-            '--genome-dir', TEST_GENOME_DIR,
+            '--reference-fasta', TEST_FASTA_REFERENCE,
             '--compressed-input',
             TEST_READ_1_COMPRESSED, TEST_READ_2_COMPRESSED]
     
