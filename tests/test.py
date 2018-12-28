@@ -6,6 +6,7 @@ import pytest
 
 TEST_DATA_DIR = 'tests/data/'
 TEST_FASTA_REFERENCE = TEST_DATA_DIR + 'test_ref.fa'
+TEST_KNOWN_SITES = TEST_DATA_DIR + 'test_known_sites.vcf.gz'
 TEST_GENOME_DIR = TEST_DATA_DIR + 'genome_dir'
 TEST_OUTPUT_DIR = TEST_DATA_DIR + 'outputs'
 
@@ -39,12 +40,14 @@ def test_aligner_single_pass():
 
     assert 'finished successfully' in results
 
-def test_aligner_two_pass():
+def test_aligner_two_pass_with_postprocessing():
     tool_args = ['python', 'gneiss/gneiss.py',
             '--threads', '2',
             '--output-dir', TEST_OUTPUT_DIR,
             '--reference-fasta', TEST_FASTA_REFERENCE,
+            '--known-sites', TEST_KNOWN_SITES,
             '--two-pass',
+            '--gatk-postprocessing',
             TEST_READ_1, TEST_READ_2]
     
     results = subprocess.check_output(tool_args).decode('utf-8')

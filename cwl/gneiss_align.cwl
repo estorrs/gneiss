@@ -17,6 +17,11 @@ inputs:
     inputBinding:
       position: 0
       prefix: '--compressed-input'
+  - id: gatk_postprocessing
+    type: boolean?
+    inputBinding:
+      position: 0
+      prefix: '--gatk-postprocessing'
   - id: read_1_fastq
     type: File?
     inputBinding:
@@ -35,6 +40,11 @@ inputs:
     inputBinding:
       position: 0
       prefix: '--gtf'
+  - id: known_sites
+    type: File?
+    inputBinding:
+      position: 0
+      prefix: '--known-sites'
   - id: two_pass
     type: boolean?
     inputBinding:
@@ -44,7 +54,7 @@ outputs:
   - id: output_bam
     type: File?
     outputBinding:
-      glob: gneiss_outputs/Aligned.sortedByCoord.out.bam
+      glob: gneiss_outputs/Aligned.sortedByCoord.out*bam
 label: gneiss_align
 arguments:
   - position: 0
