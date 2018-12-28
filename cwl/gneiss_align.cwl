@@ -62,4 +62,4 @@ arguments:
     valueFrom: gneiss_outputs
 requirements:
   - class: DockerRequirement
-    dockerPull: 'estorrs/gneiss:0.0.2'
+    dockerPull: 'estorrs/gneiss:0.0.3'
