@@ -1,9 +1,13 @@
 threads: 2
 compressed_input: false
 two_pass: true
+gatk_postprocessing: true
 reference_fasta:
   class: File
   path: ../../tests/data/test_ref.fa
+known_sites:
+  class: File
+  path: ../../tests/data/test_known_sites.vcf.gz
 read_1_fastq:
   class: File
   path: ../../tests/data/reads_1.fq

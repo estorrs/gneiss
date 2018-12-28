@@ -3,9 +3,13 @@ import os
 import shutil
 import subprocess
 
+import postprocessing
+
 GENOME_DIR = 'genome_dir'
 GENOME_DIR_SECOND_PASS = 'genome_dir_second_pass'
 TAB_NAME = 'SJ.out.tab'
+ALIGNER_OUTPUT_NAME = 'Aligned.sortedByCoord.out.bam'
+POSTPROCESSED_OUTPUT_NAME = 'Aligned.sortedByCoord.out.postprocessed.bam'
 
 
 parser = argparse.ArgumentParser()
@@ -24,18 +28,33 @@ gtf_group.add_argument('--gtf', type=str,
 
 parser.add_argument('--output-dir', type=str,
         help='Directory to store output in')
+parser.add_argument('--known-sites', type=str,
+        help='A compressed vcf (.vcf.gz) with known sites to be used during base recalibration.  \
+used in conjunction with --gatk-postprocessing')
 parser.add_argument('--threads', type=int,
         default=1, help='how many processes to allow tools to use')
 parser.add_argument('--compressed-input',
         action="store_true", help='how many processes to allow tools to use')
 parser.add_argument('--two-pass',
         action="store_true", help='preform a two pass alignment with STAR')
+parser.add_argument('--gatk-postprocessing',
+        action="store_true", help='Do postprocessing recommended by gatk for rna-seq calling. \
+Must provide a compressed vcf.gz file with known polymorphisms for base recalibration using \
+the --known-sites flag')
 
 args = parser.parse_args()
 
 def check_arguments():
     if args.reference_fasta is None:
         raise ValueError('Must specify --reference-fasta')
+
+    # if gatk postprocessing then known sites must be present
+    if args.gatk_postprocessing and args.known_sites is None:
+        raise ValueError('If doing gatk postprocessing, you must supply a .vcf.gz with konwn \
+sites using the --known-sites flag')
+        
+        if args.known_sites[:-3] != '.gz':
+            raise ValueError('--known-sites must be compressed with bgzip and have extension .gz')
 
 def generate_genome_dir(genome_dir_fp, reference_fp, gtf_fp, tab_fp=None, threads=1):
     # make sure genome_dir exists
@@ -107,6 +126,15 @@ def main():
     # clean up genome directory
     shutil.rmtree(GENOME_DIR)
 
+    # do gatk postprocessing if necessary
+    if args.gatk_postprocessing:
+        postprocessing.run_postprocessing(os.path.join(args.output_dir, ALIGNER_OUTPUT_NAME),
+                os.path.join(args.output_dir, POSTPROCESSED_OUTPUT_NAME), args.reference_fasta,
+                args.known_sites)
+
+        # remove initial bam
+        os.remove(os.path.join(args.output_dir, ALIGNER_OUTPUT_NAME))
+        
 
 if __name__ == '__main__':
     main()
