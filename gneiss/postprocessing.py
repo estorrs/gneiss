@@ -102,13 +102,15 @@ def run_postprocessing(input_bam_fp, output_bam_fp, reference_fp, known_sites_fp
     # picard sorting, read groups, and deduping
     sort_and_add_read_groups(input_bam_fp, 'temp.bam')
     mark_duplicates('temp.bam', 'temp.2.bam')
+    remove_files(['temp.bam'])
     
     # do recommended trimming
     split_and_trim('temp.2.bam', 'temp.3.bam', reference_fp)
+    remove_files(('temp.2.bam', 'temp.2.bai'))
 
     # do base recalibration
     base_recalibration('temp.3.bam', output_bam_fp, reference_fp, known_sites_fp,
             table_fp=TABLE_NAME)
 
     # clean up temp files
-    remove_files(('temp.bam', 'temp.2.bam', 'temp.2.bai', 'temp.3.bam', 'temp.3.bai', TABLE_NAME, 'output.metrics'))
+    remove_files(('temp.3.bam', 'temp.3.bai', TABLE_NAME, 'output.metrics'))
