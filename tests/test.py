@@ -16,6 +16,8 @@ TEST_READ_2 = TEST_DATA_DIR + 'reads_2.fq'
 TEST_READ_1_COMPRESSED = TEST_DATA_DIR + 'reads_1.fq.gz'
 TEST_READ_2_COMPRESSED = TEST_DATA_DIR + 'reads_2.fq.gz'
 
+TEST_POSTPROCESSING_BAM = TEST_DATA_DIR + 'test.postprocessing.bam'
+
 def test_build_genome_dir():
     tool_args = ['python', 'gneiss/generate_genome_dir.py',
             '--threads', '2',
@@ -65,3 +67,18 @@ def test_star_aligner_compressed_input():
     results = subprocess.check_output(tool_args).decode('utf-8')
 
     assert 'finished successfully' in results
+
+def test_gatk_postprocess_only():
+    # remove .faidx and .dict file from prev run
+    os.remove(TEST_FASTA_REFERENCE.replace('.fa', '.dict'))
+    os.remove(TEST_FASTA_REFERENCE + '.fai')
+    os.remove(TEST_KNOWN_SITES + '.tbi')
+    tool_args = ['python', 'gneiss/gatk_postprocess.py',
+            '--output', 'postprocessed_output.bam',
+            '--reference-fasta', TEST_FASTA_REFERENCE,
+            '--known-sites', TEST_KNOWN_SITES,
+            TEST_POSTPROCESSING_BAM]
+    
+    results = subprocess.check_output(tool_args).decode('utf-8')
+
+    assert True
