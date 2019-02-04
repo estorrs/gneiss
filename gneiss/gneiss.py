@@ -53,7 +53,7 @@ def check_arguments():
         raise ValueError('If doing gatk postprocessing, you must supply a .vcf.gz with konwn \
 sites using the --known-sites flag')
         
-        if args.known_sites[:-3] != '.gz':
+        if args.known_sites[-3:] != '.gz':
             raise ValueError('--known-sites must be compressed with bgzip and have extension .gz')
 
 def generate_genome_dir(genome_dir_fp, reference_fp, gtf_fp, tab_fp=None, threads=1):

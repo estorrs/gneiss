@@ -1,0 +1,9 @@
+reference_fasta:
+  class: File
+  path: ../../tests/data/test_ref.fa
+known_sites:
+  class: File
+  path: ../../tests/data/test_known_sites.vcf.gz
+input_bam:
+  class: File
+  path: ../../tests/data/test.postprocessing.bam
