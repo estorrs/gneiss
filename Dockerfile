@@ -27,6 +27,12 @@ ENV PATH="$PATH:/gatk-4.0.12.0/"
 # make sure we have java 8. gatk needs 8
 RUN conda install -y -c cyclus java-jdk
 
+# set default max heap size so it wont run out of memeory
+ENV _JAVA_OPTIONS="-Xmx50g"
+
+# create environmental variable for picard jar
+#ENV PICARD="/miniconda/pkgs/picard-2.18.21-0/share/picard-2.18.21-0/picard.jar"
+
 COPY . /gneiss
 WORKDIR /gneiss
 
