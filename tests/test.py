@@ -82,3 +82,20 @@ def test_gatk_postprocess_only():
     results = subprocess.check_output(tool_args).decode('utf-8')
 
     assert True
+
+def test_gatk_postprocess_with_custom_jvm_limits():
+    # remove .faidx and .dict file from prev run
+    os.remove(TEST_FASTA_REFERENCE.replace('.fa', '.dict'))
+    os.remove(TEST_FASTA_REFERENCE + '.fai')
+    os.remove(TEST_KNOWN_SITES + '.tbi')
+    tool_args = ['python', 'gneiss/gatk_postprocess.py',
+            '--output', 'postprocessed_output.bam',
+            '--reference-fasta', TEST_FASTA_REFERENCE,
+            '--known-sites', TEST_KNOWN_SITES,
+            '--min-jvm-memory', '168m',
+            '--max-jvm-memory', '256m',
+            TEST_POSTPROCESSING_BAM]
+    
+    results = subprocess.check_output(tool_args).decode('utf-8')
+
+    assert True

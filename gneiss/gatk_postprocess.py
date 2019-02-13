@@ -23,6 +23,10 @@ used in conjunction with --gatk-postprocessing')
 
 parser.add_argument('--output', type=str,
         default='output.bam', help='name of output bam')
+parser.add_argument('--min-jvm-memory', type=str,
+        default='64m', help='Minimum memory to give java JVM.')
+parser.add_argument('--max-jvm-memory', type=str,
+        default='1g', help='Maximum memory to give java JVM.')
 
 args = parser.parse_args()
 
@@ -41,7 +45,8 @@ def main():
     check_arguments()
 
     # do gatk postprocessing if necessary
-    postprocessing.run_postprocessing(args.input_bam, args.output, args.reference_fasta, args.known_sites)
+    postprocessing.run_postprocessing(args.input_bam, args.output, args.reference_fasta,
+            args.known_sites, min_memory=args.min_jvm_memory, max_memory=args.max_jvm_memory)
 
 if __name__ == '__main__':
     main()
