@@ -1,3 +1,5 @@
+min_jvm_memory: "200m"
+max_jvm_memory: "400m"
 reference_fasta:
   class: File
   path: ../../tests/data/test_ref.fa

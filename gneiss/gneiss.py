@@ -41,6 +41,10 @@ parser.add_argument('--gatk-postprocessing',
         action="store_true", help='Do postprocessing recommended by gatk for rna-seq calling. \
 Must provide a compressed vcf.gz file with known polymorphisms for base recalibration using \
 the --known-sites flag')
+parser.add_argument('--min-jvm-memory', type=str,
+        default='64m', help='Minimum memory to give java JVM.')
+parser.add_argument('--max-jvm-memory', type=str,
+        default='1g', help='Maximum memory to give java JVM.')
 
 args = parser.parse_args()
 
@@ -130,7 +134,7 @@ def main():
     if args.gatk_postprocessing:
         postprocessing.run_postprocessing(os.path.join(args.output_dir, ALIGNER_OUTPUT_NAME),
                 os.path.join(args.output_dir, POSTPROCESSED_OUTPUT_NAME), args.reference_fasta,
-                args.known_sites)
+                args.known_sites, min_memory=args.min_jvm_memory, max_memory=args.max_jvm_memory)
 
         # remove initial bam
         os.remove(os.path.join(args.output_dir, ALIGNER_OUTPUT_NAME))

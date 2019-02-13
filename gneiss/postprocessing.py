@@ -28,9 +28,9 @@ def prepare_reference(reference_fp):
     print(f'executing the following command: {" ".join(tool_args)}') 
     print(subprocess.check_output(tool_args))
 
-def sort_and_add_read_groups(input_bam_fp, output_bam_fp):
+def sort_and_add_read_groups(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g'):
     """sort and add readgroups"""
-    tool_args = ['picard', 'AddOrReplaceReadGroups',
+    tool_args = ['java', f'-Xms{min_memory}', f'-Xmx{max_memory}', '-jar', os.getenv('PICARD'), 'AddOrReplaceReadGroups',
             f'I={input_bam_fp}',
             f'O={output_bam_fp}',
             'SO=coordinate', 'RGID=id', 'RGLB=library',
@@ -40,9 +40,9 @@ def sort_and_add_read_groups(input_bam_fp, output_bam_fp):
     print(f'executing the following command: {" ".join(tool_args)}') 
     print(subprocess.check_output(tool_args))
 
-def mark_duplicates(input_bam_fp, output_bam_fp):
+def mark_duplicates(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g'):
     """mark duplicates"""
-    tool_args = ['picard', 'MarkDuplicates',
+    tool_args = ['java', f'-Xms{min_memory}', f'-Xmx{max_memory}', '-jar', os.getenv('PICARD'), 'MarkDuplicates',
             f'I={input_bam_fp}',
             f'O={output_bam_fp}',
             'CREATE_INDEX=true', 'VALIDATION_STRINGENCY=SILENT', 'M=output.metrics']
@@ -92,7 +92,8 @@ def remove_files(fps):
     for fp in fps:
         os.remove(fp)
 
-def run_postprocessing(input_bam_fp, output_bam_fp, reference_fp, known_sites_fp):
+def run_postprocessing(input_bam_fp, output_bam_fp, reference_fp, known_sites_fp,
+        min_memory='64m', max_memory='1g'):
     """run gatk recommended rna-seq bam postprocessing steps"""
     # make sure known sites is indexed
     prepare_known_sites(known_sites_fp)
@@ -100,8 +101,10 @@ def run_postprocessing(input_bam_fp, output_bam_fp, reference_fp, known_sites_fp
     prepare_reference(reference_fp)
     
     # picard sorting, read groups, and deduping
-    sort_and_add_read_groups(input_bam_fp, 'temp.bam')
-    mark_duplicates('temp.bam', 'temp.2.bam')
+    sort_and_add_read_groups(input_bam_fp, 'temp.bam',
+            min_memory=min_memory, max_memory=max_memory)
+    mark_duplicates('temp.bam', 'temp.2.bam',
+            min_memory=min_memory, max_memory=max_memory)
     remove_files(['temp.bam'])
     
     # do recommended trimming

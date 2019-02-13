@@ -21,6 +21,16 @@ inputs:
     inputBinding:
       position: 0
       prefix: '--known-sites'
+  - id: max_jvm_memory
+    type: string?
+    inputBinding:
+      position: 0
+      prefix: '--max-jvm-memory'
+  - id: min_jvm_memory
+    type: string?
+    inputBinding:
+      position: 0
+      prefix: '--min-jvm-memory'
 outputs:
   - id: output_bam
     type: File?
