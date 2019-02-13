@@ -33,4 +33,4 @@ arguments:
     valueFrom: output.bam
 requirements:
   - class: DockerRequirement
-    dockerPull: 'estorrs/gneiss:0.0.4'
+    dockerPull: 'estorrs/gneiss:0.0.5'
