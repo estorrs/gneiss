@@ -40,12 +40,16 @@ def sort_and_add_read_groups(input_bam_fp, output_bam_fp, min_memory='64m', max_
     print(f'executing the following command: {" ".join(tool_args)}') 
     print(subprocess.check_output(tool_args))
 
-def mark_duplicates(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g'):
+def mark_duplicates(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g',
+        max_records_in_ram=1000000):
     """mark duplicates"""
     tool_args = ['java', f'-Xms{min_memory}', f'-Xmx{max_memory}', '-jar', os.getenv('PICARD'), 'MarkDuplicates',
             f'I={input_bam_fp}',
             f'O={output_bam_fp}',
-            'CREATE_INDEX=true', 'VALIDATION_STRINGENCY=SILENT', 'M=output.metrics']
+            f'MAX_RECORDS_IN_RAM={max_records_in_ram}',
+            'CREATE_INDEX=true',
+            'VALIDATION_STRINGENCY=SILENT',
+            'M=output.metrics']
 
     print('marking duplicate reads')
     print(f'executing the following command: {" ".join(tool_args)}') 
