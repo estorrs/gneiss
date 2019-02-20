@@ -28,11 +28,13 @@ def prepare_reference(reference_fp):
     print(f'executing the following command: {" ".join(tool_args)}') 
     print(subprocess.check_output(tool_args))
 
-def sort_and_add_read_groups(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g'):
+def sort_and_add_read_groups(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g',
+        validation_stringency='LENIENT'):
     """sort and add readgroups"""
     tool_args = ['java', f'-Xms{min_memory}', f'-Xmx{max_memory}', '-jar', os.getenv('PICARD'), 'AddOrReplaceReadGroups',
             f'I={input_bam_fp}',
             f'O={output_bam_fp}',
+            f'VALIDATION_STRINGENCY={validation_stringency}',
             'SO=coordinate', 'RGID=id', 'RGLB=library',
             'RGPL=platform', 'RGPU=machine', 'RGSM=sample']
 
