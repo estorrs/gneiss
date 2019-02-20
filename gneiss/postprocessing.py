@@ -29,7 +29,7 @@ def prepare_reference(reference_fp):
     print(subprocess.check_output(tool_args))
 
 def sort_and_add_read_groups(input_bam_fp, output_bam_fp, min_memory='64m', max_memory='1g',
-        validation_stringency='LENIENT'):
+        validation_stringency='SILENT'):
     """sort and add readgroups"""
     tool_args = ['java', f'-Xms{min_memory}', f'-Xmx{max_memory}', '-jar', os.getenv('PICARD'), 'AddOrReplaceReadGroups',
             f'I={input_bam_fp}',
